@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,14 @@ public class EntryAdapter extends ResourceCursorAdapter {
 
         TextView timeStamp = view.findViewById(R.id.timestamp);
         timeStamp.setText(timestamp);
+
+        // Set mood
+        String mood = cursor.getString(cursor.getColumnIndex("mood"));
+
+        ImageView Mood = view.findViewById(R.id.mood);
+        int id = context.getResources().getIdentifier(mood, "drawable", context.getPackageName());
+        Mood.setImageResource(id);
+
 
     }
 }

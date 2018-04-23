@@ -23,22 +23,22 @@ public class InputActivity extends AppCompatActivity {
     }
 
     public void addEntry(View view) {
-        // Find strings that should be stored in the database (title, date, content, mood)
+
+        // Find strings that should be stored in the database (title, date, happy, mood)
         TextView entryTitle = findViewById(R.id.title);
         TextView entryContent = findViewById(R.id.content);
-        //TextView entryTimestamp = findViewById(R.id.timestamp);
-
-        String title = entryTitle.getText().toString();
+                String title = entryTitle.getText().toString();
         String content = entryContent.getText().toString();
-        //String timestamp = entryTimestamp.getText().toString();
         String Mood = mood;
 
         if(title.length() <= 0 || content.length() <= 0 /*|| timestamp.length()<=0*/ || Mood==null){
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
         } else {
+            // Add entry to database
             JournalEntry entry = new JournalEntry(title,content,Mood/*,timestamp*/);
-            //db = EntryDatabase.getInstance(getApplicationContext());
             db.insert(entry);
+
+            // Notify user
             Toast.makeText(this, "Entry is added", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(InputActivity.this,MainActivity.class);
             startActivity(intent);

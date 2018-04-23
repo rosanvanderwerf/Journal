@@ -1,6 +1,7 @@
 package com.example.rosan.journal;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.AdapterViewAnimator;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -55,13 +57,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View v, int i, long l){
 
+            Cursor cursor = (Cursor) adapterView.getAdapter().getItem(i);
+
+            // Extract id, title, content, mood, timestamp and make an JournalEntry
+            Integer id = cursor.getInt(cursor.getColumnIndex("_id"));
+            String title = cursor.getString(cursor.getColumnIndex("title"));
+            String content = cursor.getString(cursor.getColumnIndex("content"));
+            String mood = cursor.getString(cursor.getColumnIndex("mood"));
+            String timestamp = (Timestamp.valueOf(cursor.getString(4))).toString();
+            JournalEntry clickedEntry = new JournalEntry(id,title,content,mood,timestamp);
+
+            // Start new activity
+            Intent intent = new Intent (MainActivity.this, DetailActivity.class);
+            intent.putExtra("clickedEntry", clickedEntry);
+            startActivity(intent);
         }
     }
 
     private class deleteEntry implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View v, int i, long id) {
-            EntryAdapter adapter = new EntryAdapter(MainActivity.this, db.selectAll() );
 
             // Delete selected JournalEntry by id
             db.delete(id);

@@ -19,7 +19,13 @@ public class JournalEntry implements Serializable {
         //this.timestamp = timestamp;
     }
 
-    public JournalEntry(){ }
+    public JournalEntry(Integer id, String title, String content, String mood, String timestamp){
+        this._id = id;
+        this.title = title;
+        this.content = content;
+        this.mood = mood;
+        this.timestamp = timestamp;
+    }
 
     // Getters
     public String getTitle(){

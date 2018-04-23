@@ -43,7 +43,7 @@
             android:layout_height="40dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            app:srcCompat="@drawable/content"
+            app:srcCompat="@drawable/happy"
             android:onClick="happySelected"/>
 
         <ImageView
