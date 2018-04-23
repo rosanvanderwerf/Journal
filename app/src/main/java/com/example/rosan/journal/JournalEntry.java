@@ -5,11 +5,11 @@ import java.io.Serializable;
 /** Created by rosan on 2-3-2018. */
 
 public class JournalEntry implements Serializable {
-    private int _id;
+    public int _id;
     public String title;
-    private String content;
-    private String mood;
-    private String timestamp;
+    public String content;
+    public String mood;
+    public String timestamp;
 
     // Constructor
     public JournalEntry(String title, String content, String mood/*, String timestamp*/){
@@ -18,6 +18,8 @@ public class JournalEntry implements Serializable {
         this.mood = mood;
         //this.timestamp = timestamp;
     }
+
+    public JournalEntry(){ }
 
     // Getters
     public String getTitle(){
@@ -40,4 +42,6 @@ public class JournalEntry implements Serializable {
     public void setTitle(String s){
         this.title = s;
     }
+
+    public void setTimestamp(String s) {this.timestamp = s; }
 }

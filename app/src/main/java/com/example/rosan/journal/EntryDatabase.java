@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 /* Created by rosan on 2-3-2018. */
 
 public class EntryDatabase extends SQLiteOpenHelper {
@@ -30,7 +32,6 @@ public class EntryDatabase extends SQLiteOpenHelper {
         }
         return instance;
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -60,6 +61,12 @@ public class EntryDatabase extends SQLiteOpenHelper {
         values.put(KEY_CONTENT, entry.getContent());
         values.put(KEY_MOOD, entry.getMood());
         sqLiteDatabase.insert(TABLE,null,values);
+        sqLiteDatabase.close();
+    }
+
+    public void delete(long id){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(TABLE,KEY_ID + "=" + id,null);
         sqLiteDatabase.close();
     }
 }

@@ -2,12 +2,15 @@ package com.example.rosan.journal;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.sql.Timestamp;
 
 /* Created by rosan on 2-3-2018. */
 
@@ -19,25 +22,17 @@ public class EntryAdapter extends ResourceCursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        // Retrieve value of one column as integer
-        //int value = cursor.getInt(0);
-        //int title = cursor.getColumnIndex("title");
-
-        //TextView entryTitle = view.findViewById(R.id.title);
-
 
         // Extract properties from cursor
         String title = cursor.getString(cursor.getColumnIndex("title"));
-        //entryTitle.setText(title);
+        String timestamp = (Timestamp.valueOf(cursor.getString(4))).toString();
 
-        View parent = (View)view.getParent();
-        if(parent!=null){
-            TextView entryTitle = parent.findViewById(R.id.title);
-            entryTitle.setText("title" + title);
-        }
+        // Set title and date
+        TextView entryTitle = view.findViewById(R.id.title);
+        entryTitle.setText(title);
 
-        /*view.findViewById(R.id.title);
-        view.findViewById(R.id.timestamp);*/
+        TextView timeStamp = view.findViewById(R.id.timestamp);
+        timeStamp.setText(timestamp);
 
     }
 }

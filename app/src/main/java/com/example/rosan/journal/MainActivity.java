@@ -1,6 +1,7 @@
 package com.example.rosan.journal;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    //ArrayList<JournalEntry> entries;
     EntryDatabase db;
     ListView listView;
 
@@ -24,29 +24,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // Initiate views
         listView = findViewById(R.id.listView);
 
-         db = EntryDatabase.getInstance(getApplicationContext());
+        // Create database
+        db = EntryDatabase.getInstance(getApplicationContext());
 
+        // Set listeners
         listView.setOnItemClickListener(new displayEntry());
         listView.setOnItemLongClickListener(new deleteEntry());
 
-        JournalEntry entry1 = new JournalEntry("example", "this is an example", "shocked");
-        Toast.makeText(this, entry1.getTitle(), Toast.LENGTH_SHORT).show();
-
-        db.insert(entry1);
         loadEntryList();
-
-
     }
 
     private void loadEntryList() {
+
+        // Get data from database and set in adapter to show in activity
         EntryAdapter adapter = new EntryAdapter(MainActivity.this, db.selectAll());
         listView.setAdapter(adapter);
     }
 
     public void addEntry(View view) {
+
         // Go to InputActivity
         Intent intent = new Intent(MainActivity.this,InputActivity.class);
         startActivity(intent);
@@ -55,10 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private class displayEntry implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> adapterView, View v, int i, long l){
-            // Go to DetailActivity
-            Intent intent = new Intent(MainActivity.this,DetailActivity.class);
-            // PutExtra Entry, to new intent
-            startActivity(intent);
+
         }
     }
 
@@ -66,13 +62,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View v, int i, long id) {
             EntryAdapter adapter = new EntryAdapter(MainActivity.this, db.selectAll() );
-            // getItem? to extract which entry it is about
-            // Delete Entry
 
+            // Delete selected JournalEntry by id
+            db.delete(id);
+
+            // Notify the user
+            Toast.makeText(MainActivity.this, "entry deleted", Toast.LENGTH_SHORT).show();
             loadEntryList();
             return true;
         }
     }
-
-
 }
